@@ -2,23 +2,30 @@
 
 ## Introduction
 
-`Cybertron` as an independent toolkit is to setup Multi-Input-Multi-Output (MIMO) pipeline. It was originally maintained by
-Baidu CarOS team from legacy Advanced Driving Unit \(ADU\), and since version 3.5, it is continuously integrated to `Apollo.auto` project by community 
-maintainers with a new name `cyber_rt`.
+as an independent toolkit, [`Cybertron`](https://github.com/ApolloAuto/apollo/tree/master/cyber) is used to setup Multi-Input-Multi-Output (MIMO) pipelines. 
+It was originally maintained by Baidu CarOS team from legacy Advanced Driving Unit \(ADU\).  
+ 
+Since version 3.5, it has been continuously integrated to [`Apollo.auto`](https://github.com/ApolloAuto/apollo) project by community 
+maintainers with a new name `cyber_rt` meaning `Cybertron` for runtime MIMO computing platform.
 
-Instead of using BCLOUD, they build it with a new compiling system `Bazel`. Bazel is optimized to compile medium and large
-size projects. I am also pretty much sure that it works well with existing CMake project in Linux sytem.
+Instead of using CMake, internal BCLOUD -- a distributed compiling system, or external 
+`distcc`, Cybertron is built with a new compiling system `Bazel`. Bazel is optimized to 
+compile medium and large size of projects. I am also pretty much sure that it works very 
+well with existing CMake projects in Linux system.
 
-The building blocks of software offers three major features to boost up development for realtime computing was optimized 
-for RTOS, but it is also possible to be utilized in offline pipelines:
+This repo is a non-official distribution of building blocks of the `Cybertron`. By offering 
+three major features, `Cybertron` boosts up real-time computing task performance inside 
+RTOS such as QNX and ROS with shumbus. Besides real-time computing system, the `cybertron` 
+is also possible to be utilized in offline pipelines:
 
-1. \#
-2. \##
-3. \###
+1. 
+2. 
+3. 
+4. Sync with Apollo.auto Released 6.0 
 
 ### Software dependencies
 
-Details can be found in `scripts/prepare_for_cyber.sh`. To summarize up, 
+Details of dependencies can be easily found in `scripts/prepare_for_cyber.sh`: 
 
 ```
 1. Fast-DDS : 1.5.0
@@ -32,32 +39,49 @@ Details can be found in `scripts/prepare_for_cyber.sh`. To summarize up,
 
 Note:
 
-> Successful building uses `.bazelrc` to configure, which imports `tools/bazel.rc`
+> Successful building uses `.bazelrc` from `Apollo.auto` to configure. The file is used to 
+> import `tools/bazel.rc`
 
 ## Build
-#### Build from scratch
 
-after setting up the environment, simply run:
+#### 1. Build from scratch in local environment
 
-> bazel build --config=cpu --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+First we need to setup development environment:
+
+```
+sudo bash scripts/prepare_for_cyber.sh
+```
+
+After the environment setup, simply run the following command to build libraries with Bazel:
+
+```
+/usr/bin/bazel build --config=cpu --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+```
+
+Here is the snapshot of building result:
 
 ![build cyber from scratch](https://drive.google.com/uc?id=15goHJn-MNSdLOmyaNl_zk3aOUlghJ3xE)
 
-To check the building process, switch to verbose :
+To check the building process, switch to verbose:
 
-> bazel build -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+```
+bazel build -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+```
 
-#### verify building
+#### 2. Verify
 
 > bazel test -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
 
 Bazel will run and evaluate all gtest cases.
 
-#### Verify third party dependencies
 
-Launch a new docker container with whatever Ubuntu 18.04 based images you have and label it a new name `cyber_dev_base`.
 
-To checkout the building environment, it is handy to check docker image buiding script:
+#### 3. Build `cyber` image
+
+We want to launch a new docker image with whatever images based on Ubuntu 18.04, and label it a with new 
+name `cyber_dev_base`.
+
+To checkout the building environment, it is handy to check docker image building script:
 
 ```
 [Docker-cyber_dev_base] yiakwy@yiakwy-XPS-15-9500:~/WorkSpace/Github/cyber_rt/docker/build$ bash build_docker.sh --dry -m build -f cyber.x86_64.dockerfile -g cn
@@ -73,41 +97,56 @@ Stable Docker image will be built.
 =====.=====.=====.=====.=====.=====.=====.=====.=====.=====.=====.=====.=====
 ```
 
-It seems that the base image of cyber provides nothing useful except for CUDA comuting environment. Also
+The base image of cyber provides nothing useful except for CUDA computing environment. Also
 we have modern ways to setup docker with CUDA, CUDNN, NCCL, and TensorRT environment. 
 
-Go ahead, and find the dockerfile `cyber-x86_64-18.04-*`, repeat the relevant steps in terminal. We also
-provide you a tool `prepare_for_cyber.sh` in our new repository to cover the building steps.
-
-
-#### Testing build with prebuilt image
-
-Pull prebuilt docker image and start a container binded with current user:
-
-> bash docker/scripts/dev_start.sh
-
-```bash
-+ set +x
-Adding group `yiakwy' (GID 1000) ...
-Done.
-Adding user `yiakwy' ...
-Adding new user `yiakwy' (1000) with group `yiakwy' ...
-Creating home directory `/home/yiakwy' ...
-Copying files from `/etc/skel' ...
-[ OK ] Congratulations! You have successfully finished setting up Apollo Dev Environment.
-[ OK ] To login into the newly created apollo_dev_yiakwy container, please run the following command:
-[ OK ]   bash docker/scripts/dev_into.sh
-[ OK ] Enjoy!
-yiakwy@yiakwy-XPS-15-9500:~/WorkSpace/Github/cyber_rt$
-```
-
-The docker image built by Apollo.auto requires an old version of `nvidia-container-cli` toolkit which has problem to detect
-cuda (cuda<11.1) and its version correctly. Since we are using CUDA 10.2 Set environment variable `NVIDIA_DISABLE_REQUIRE=1`
-to skip over CUDA version check.
-
-After the boostrap, set the environment variables according to [OCI specification](https://github.com/NVIDIA/nvidia-container-runtime).
+You also opted to login in a new docker container from base image. We provide you the building 
+tool `scritps/prepare_for_cyber.sh` in this repository to cover the building steps. Then you
+can commit changes to generate cyber image.
 
 The container has already setup the environment to build cyber. Simply run
+
+```
+/usr/bin/bazel build --config=cpu --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+```
+
+#### 4. Pull prebuilt `cyber` image
+
+Similar `Apollo.auto` main line, to pull pre-built cyber image, use `docker/scripts/cyber_start.sh` 
+
+```
+(py36) ➜  cybertron git:(master) ✗ bash docker/scripts/cyber_start.sh                              
+Done checking host environment.
+[INFO] Image apolloauto/apollo:cyber-x86_64-18.04-20200914_0704 found locally, will be used.
+[INFO] Removing existing cyber container apollo_cyber_yiak
+[INFO] DOCKER_RUN_CMD evaluated to: docker run --gpus all
+[INFO] Starting docker container "apollo_cyber_yiak" ...
++ docker run --gpus all -it -d --privileged --name apollo_cyber_yiak -e DISPLAY=:1 -e DOCKER_USER=yiak -e USER=yiak -e DOCKER_USER_ID=1000 -e DOCKER_GRP=yiak -e DOCKER_GRP_ID=1000 -e DOCKER_IMG=apolloauto/apollo:cyber-x86_64-18.04-20200914_0704 -e USE_GPU_HOST=1 -e NVIDIA_VISIBLE_DEVICES=all -e NVIDIA_DRIVER_CAPABILITIES=compute,video,graphics,utility -e OMP_NUM_THREADS=1 -v /home/yiak/WorkSpace/Github/cybertron:/apollo -v /dev:/dev -v /etc/localtime:/etc/localtime:ro -v /dev/null:/dev/raw1394 -v /media:/media -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v /lib/modules:/lib/modules --net host -w /apollo --add-host in-cyber-docker:172.0.0.1 --add-host yiak-Z390-UD:127.0.0.1 --hostname in-cyber-docker --shm-size 2G --pid=host apolloauto/apollo:cyber-x86_64-18.04-20200914_0704 /bin/bash
+3cf9546e4c264e772426e3c0dbc318f2c8bb5637690d2e35f48f8e8d5e84563c
++ '[' 0 -ne 0 ']'
++ set +x
+Adding group `yiak' (GID 1000) ...
+Done.
+Adding user `yiak' ...
+Adding new user `yiak' (1000) with group `yiak' ...
+Creating home directory `/home/yiak' ...
+Copying files from `/etc/skel' ...
+[ OK ] Congrats, you have successfully finished setting up Apollo cyber docker environment. To login into cyber container, please run the following command:
+[ OK ]   bash docker/scripts/cyber_into.sh
+[ OK ] Enjoy!
+
+```
+
+The docker image built by `Apollo.auto` requires an old version of `nvidia-container-cli` 
+toolkit which has problem to detect cuda (cuda<11.1) and its version correctly. Since we 
+are using CUDA 10.2, Set environment variable `NVIDIA_DISABLE_REQUIRE=1` to skip over CUDA 
+version check.
+
+After the bootstrap, set the additional container environment variables as with 
+[OCI specification](https://github.com/NVIDIA/nvidia-container-runtime) to meet your needs.
+
+Actually, the container has already setup the environment variables to build cyber. Simply 
+run:
 
 ```
 [yiakwy@in-dev-docker:/apollo]$ bazel build --config=cpu --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...

@@ -43,8 +43,8 @@ if [ "${TARGET_ARCH}" = "aarch64" ]; then
     exit 0
 fi
 
-QT_VERSION_A=5.12
-QT_VERSION_B=5.12.9
+QT_VERSION_A=5.13 #5.12
+QT_VERSION_B=5.13.2 #5.12.9
 QT_VERSION_Z=$(echo "$QT_VERSION_B" | tr -d '.')
 
 QT_INSTALLER=qt-opensource-linux-x64-${QT_VERSION_B}.run

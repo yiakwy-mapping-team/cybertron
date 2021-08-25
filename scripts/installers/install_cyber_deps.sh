@@ -30,12 +30,14 @@ apt-get -y update && \
     libuuid1 \
     uuid-dev
 
-info "Install protobuf ..."
-bash ${CURR_DIR}/install_protobuf.sh
+if which protoc > /dev/null && [ $(protoc --version | head -n1 | cut -d" " -f4) -lt $VERSION ]; then
+  info "protoc has been installed"
+else
+  info "Install protobuf ..."
+  bash ${CURR_DIR}/install_protobuf.sh
 
 info "Install fast-rtps ..."
 bash ${CURR_DIR}/install_fast-rtps.sh
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*

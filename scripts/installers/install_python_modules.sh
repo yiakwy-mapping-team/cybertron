@@ -51,5 +51,4 @@ if [[ -n "${CLEAN_DEPS}" ]]; then
 fi
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*

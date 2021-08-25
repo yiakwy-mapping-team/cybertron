@@ -39,5 +39,4 @@ bash ${CURR_DIR}/install_libtorch.sh
 # opencv @cuda
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*

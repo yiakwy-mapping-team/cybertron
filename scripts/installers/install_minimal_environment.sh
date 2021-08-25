@@ -31,7 +31,9 @@ ARCH="$(uname -m)"
 
 if [[ "${ARCH}" == "x86_64" ]]; then
     if [[ "${MY_GEO}" == "cn" ]]; then
-        cp -f "${RCFILES_DIR}/sources.list.cn.x86_64" /etc/apt/sources.list
+        # this rcfile is not very stable for my local machine
+        echo "using my local rcfile..."
+        # cp -f "${RCFILES_DIR}/sources.list.cn.x86_64" /etc/apt/sources.list
         # sed -i 's/nvidia.com/nvidia.cn/g' /etc/apt/sources.list.d/nvidia-ml.list
     else
         sed -i 's/archive.ubuntu.com/us.archive.ubuntu.com/g' /etc/apt/sources.list
@@ -126,5 +128,4 @@ pip3_install -U wheel
 apt-get -y autoremove python3-pip
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*

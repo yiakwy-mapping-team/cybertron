@@ -59,5 +59,4 @@ pip3_install pycodestyle \
 bash ${CURR_DIR}/install_shfmt.sh
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*

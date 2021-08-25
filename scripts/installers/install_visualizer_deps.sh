@@ -45,5 +45,4 @@ bash ${CURR_DIR}/install_qt.sh "${BUILD_TYPE}"
 
 
 # Clean up cache to reduce layer size.
-apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get clean # && rm -rf /var/lib/apt/lists/*
