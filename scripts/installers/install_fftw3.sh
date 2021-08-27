@@ -33,4 +33,5 @@ find "/usr/lib/$(uname -m)-linux-gnu" -name "libfftw3*.a" -delete -print
 # http://www.fftw.org/fftw-3.3.8.tar.gz
 
 # Clean up cache to reduce layer size.
-apt-get clean # && rm -rf /var/lib/apt/lists/*
+apt-get clean && \
+    [ "$IS_IN_DOCKER" == "true" ] && rm -rf /var/lib/apt/lists/*

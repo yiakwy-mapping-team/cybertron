@@ -29,7 +29,7 @@ Details of dependencies can be easily found in `scripts/prepare_for_cyber.sh`:
 
 ```
 1. Fast-DDS : 1.5.0
-2. protobuf : 3.1.4
+2. protobuf : 3.14
 3. LLVM CLANG-10 : clang, libc, libtool
 6. perf tools : shellcheck, gperftools
 7. lint tools : pyflake, flake8, yapf, autopep8
@@ -40,7 +40,9 @@ Details of dependencies can be easily found in `scripts/prepare_for_cyber.sh`:
 Note:
 
 > Successful building uses `.bazelrc` from `Apollo.auto` to configure. The file is used to 
-> import `tools/bazel.rc`
+> import `tools/bazel.rc`. If you are building `Cybertron` in customer container or build it
+> in host environment, bazel and proto will be installed in /usr/bin, make sure you have
+> configured a correct envrionment for bazel to find them
 
 ## Build
 
@@ -65,16 +67,27 @@ Here is the snapshot of building result:
 To check the building process, switch to verbose:
 
 ```
-bazel build -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+/usr/bin/bazel build -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
 ```
 
 #### 2. Verify
 
-> bazel test -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+Before running the test, if you are not in a container, cp the binaries into "/apollo" for test:
 
-Bazel will run and evaluate all gtest cases.
+```
+sudo ln -s modules /apollo/cyber
+sudo cp -r bazel-bin /apollo
+```
 
+followed by issuing
 
+```
+/usr/bin/bazel test -s --verbose_explanations --explain=see.log --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+```
+
+Bazel will run and evaluate all gtest cases automatically:
+
+![test_cyber_building](https://drive.google.com/uc?id=1r4wf-RCC1fGzWPAkbmiNOP7tHlyZ2I9w)
 
 #### 3. Build `cyber` image
 
@@ -161,6 +174,39 @@ run:
 [yiakwy@in-dev-docker:/apollo]$
 ```
 
+## FQA
+
+1. Will cybertron work with Anaconda python
+
+    Definitely yes. The "third_party/py" was used to handle python, to help bazel find your 
+    python correclty, setup your environment variables and change accordingly:
+
+    > source cyber_env.sh 
+
+    ```
+    (py36) ➜  cybertron git:(master) ✗ /usr/bin/bazel build --config=cpu --jobs=12 '--local_ram_resources=HOST_RAM*0.7' -- //modules/...
+    (23:16:36) INFO: Current date is 2021-08-27
+    (23:16:37) DEBUG: /home/yiak/WorkSpace/Github/cybertron/third_party/py/python_configure.bzl:196:10: ctx: <unknown object com.google.devtools.build.lib.bazel.repository.starlark.StarlarkRepositoryContext>
+    (23:16:37) DEBUG: /home/yiak/WorkSpace/Github/cybertron/third_party/py/python_configure.bzl:197:10: bin: /bin/bash
+    (23:16:37) DEBUG: /home/yiak/WorkSpace/Github/cybertron/third_party/py/python_configure.bzl:198:10: cmd: test -d "/home/yiak/anaconda3/envs/py36/lib/libpython3.6m.so.1.0" -a -x "/home/yiak/anaconda3/envs/py36/lib/libpython3.6m.so.1.0"
+    (23:16:37) INFO: Analyzed 688 targets (95 packages loaded, 2321 targets configured).
+    (23:16:37) INFO: Found 688 targets...
+    (23:18:16) INFO: Elapsed time: 99.700s, Critical Path: 25.01s
+    (23:18:16) INFO: 2592 processes: 1606 internal, 986 local.
+    (23:18:16) INFO: Build completed successfully, 2592 total actions
+    
+    ```
+
+
+2. Could I debug cybertron with GDB ?
+
+    Definitely yes. Pass debug flags to gcc with built_opt:
+    
+    ```
+    /usr/bin/bazel build --compilation_mode=dbg //modules/...
+    ```
+
 ## Start off
 
 #### Start off with a CMake project
+

@@ -182,8 +182,8 @@ cc_binary(
 
 - Build: bazel build cyber/examples/…
 - Run talker/listener in different terminals:
-  - ./bazel-bin/cyber/examples/talker
-  - ./bazel-bin/cyber/examples/listener
+  - ./bazel-bin/modules/examples/talker
+  - ./bazel-bin/modules/examples/listener
 - Examine the results: you should see message printing out on listener.
 
 ## Service Creation and Use
@@ -271,7 +271,7 @@ cc_binary(
 #### Build and run
 
 - Build service/client: bazel build cyber/examples/…
-- Run: ./bazel-bin/cyber/examples/service
+- Run: ./bazel-bin/modules/examples/service
 - Examining result: you should see content below in apollo/data/log/service.INFO
 
 ``` txt
@@ -499,7 +499,7 @@ int main(int argc, char** argv) {
 #### Build and run
 
 - Build: bazel build cyber/examples/…
-- Run: ./bazel-bin/cyber/examples/paramserver
+- Run: ./bazel-bin/modules/examples/paramserver
 
 ## Log API
 
@@ -959,7 +959,7 @@ int main(int argc, char *argv[]) {
 #### Build and run
 
 - Build: bazel build cyber/examples/…
-- Run: ./bazel-bin/cyber/examples/record
+- Run: ./bazel-bin/modules/examples/record
 - Examining result:
 
 ```

@@ -24,20 +24,22 @@ CURR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 TARGET_ARCH="$(uname -m)"
 
-apt-get -y update && \
-    apt-get -y install \
-    ncurses-dev \
-    libuuid1 \
-    uuid-dev
+# apt-get -y update && \
+#     apt-get -y install \
+#     ncurses-dev \
+#     libuuid1 \
+#     uuid-dev
 
 if which protoc > /dev/null && [ $(protoc --version | head -n1 | cut -d" " -f4) -lt $VERSION ]; then
   info "protoc has been installed"
 else
   info "Install protobuf ..."
   bash ${CURR_DIR}/install_protobuf.sh
+fi
 
 info "Install fast-rtps ..."
 bash ${CURR_DIR}/install_fast-rtps.sh
 
 # Clean up cache to reduce layer size.
-apt-get clean # && rm -rf /var/lib/apt/lists/*
+apt-get clean && \
+    [ "$IS_IN_DOCKER" == "true" ] && rm -rf /var/lib/apt/lists/*

@@ -84,5 +84,6 @@ info "Install support for [${COMPONENT}] ..."
 bash ${CURR_DIR}/install_fftw3.sh
 
 # Clean up cache to reduce layer size.
-apt-get clean # && rm -rf /var/lib/apt/lists/*
+apt-get clean && \
+    [ "$IS_IN_DOCKER" == "true" ] && rm -rf /var/lib/apt/lists/*
 

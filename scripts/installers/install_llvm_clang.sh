@@ -35,7 +35,8 @@ sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 
 sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-10 100
 
 # Clean up cache to reduce layer size.
-apt-get clean # && rm -rf /var/lib/apt/lists/*
+apt-get clean && \
+    [ "$IS_IN_DOCKER" == "true" ] && rm -rf /var/lib/apt/lists/*
 
 # Install from source
 # Ref:

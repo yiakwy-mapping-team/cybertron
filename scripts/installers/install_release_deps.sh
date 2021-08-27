@@ -40,4 +40,5 @@ apt_get_update_and_install \
 bash ${CURR_DIR}/install_patchelf.sh
 
 # Clean up cache to reduce layer size.
-apt-get clean # && rm -rf /var/lib/apt/lists/*
+apt-get clean && \
+    [ "$IS_IN_DOCKER" == "true" ] && rm -rf /var/lib/apt/lists/*

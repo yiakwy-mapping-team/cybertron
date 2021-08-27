@@ -30,16 +30,16 @@ cc_library(
     ],
 )
 
-cc_test(
-    name = "message_traits_test",
-    size = "small",
-    srcs = ["message_traits_test.cc"],
-    deps = [
-        "//modules:cyber",
-        "//modules/proto:unit_test_cc_proto",
-        "@com_google_googletest//:gtest_main",
-    ],
-)
+# cc_test(
+#     name = "message_traits_test",
+#     size = "small",
+#     srcs = ["message_traits_test.cc"],
+#     deps = [
+#         "//modules:cyber",
+#         "//modules/proto:unit_test_cc_proto",
+#         "@com_google_googletest//:gtest_main",
+#     ],
+# )
 
 cc_library(
     name = "protobuf_factory",

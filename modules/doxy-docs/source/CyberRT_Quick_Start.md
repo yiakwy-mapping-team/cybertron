@@ -124,7 +124,7 @@ To configure the DAG dependency file (common.dag), specify the following items a
 ```protobuf
 # Define all coms in DAG streaming.
 component_config {
-    component_library : "/apollo/bazel-bin/cyber/examples/common_component_example/libcommon_component_example.so"
+    component_library : "/apollo/bazel-bin/modules/examples/common_component_example/libcommon_component_example.so"
     components {
         class_name : "CommonComponentSample"
         config {

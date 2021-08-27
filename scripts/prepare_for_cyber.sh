@@ -14,6 +14,7 @@ INSTALL_MODE=download
 CLEAN_DEPS=false
 
 BUILD_STAGE=cyber
+IS_IN_DOCKER=
 
 ## import libraries
 source installers/installer_base.sh
@@ -21,11 +22,11 @@ source installers/installer_base.sh
 ## API
 
 # check if the command running in guest machine
-is_in_container() {
+function is_in_container() {
   if [ -f /.dockerenv ]; then
-    return 0
+    echo "true"
   else
-    return -1
+    echo "false"
   fi
 }
 
@@ -33,6 +34,20 @@ is_in_container() {
 ## export automation toolkits API for subshells
 
 export -f is_in_container
+
+is_in_container
+
+IS_IN_DOCKER=$(is_in_container)
+export IS_IN_DOCKER=$IS_IN_DOCKER
+
+if [ "$IS_IN_DOCKER" == "true" ];then
+  info "Inside docker container $CONTAINER"
+else
+  info "Outside of docker container."
+fi
+
+info "Please check your cuda installation in advance"
+info "Here is example for cuda 10.2: https://gitlab.com/nvidia/container-images/cuda/-/blob/master/dist/10.2/ubuntu18.04/devel/Dockerfile"
 
 # cyber_rt is released with apolloauto main line
 
@@ -43,14 +58,14 @@ if [ ! -d $APOLLO_DIST_DIR/rcfiles ]; then
   cp -r rcfiles $APOLLO_DIST_DIR
 fi
 
-sudo bash installers/install_minimal_environment.sh $GEOLOC
+bash installers/install_minimal_environment.sh $GEOLOC
 # use our cmake comment the following lines if you want install cmake
-# bash installers/install_cmake.sh
+## bash installers/install_cmake.sh
 bash installers/install_cyber_deps.sh $INSTALL_MODE
 bash installers/install_llvm_clang.sh
 bash installers/install_qa_tools.sh
 bash installers/install_visualizer_deps.sh
-if [ is_in_container == 0 ]; then
+if [ "$IS_IN_DOCKER" == "false" ]; then
   warn "outside of container, unset QT5_PATH and QT_QPA_PLATFORM_PLUGIN_PATH to avoid conflicts with existing software"
   unset QT5_PATH 
   unset QT_QPA_PLATFORM_PLUGIN_PATH
