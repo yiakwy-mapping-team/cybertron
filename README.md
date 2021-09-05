@@ -14,9 +14,11 @@ The application is evolving from original CMake based prototype to tackle some r
 
 To summarize:
 
-- Static allocation of memory
-- Intra - Process Communication to replace UDP based communication
-- 
+1. Intra-Process Communiation (IPC) with linux native Xmi shared memory
+2. Dynamic loading with Directed Acyclic Graph (DAG) description for multi input and multi output (MIMO) application
+3. M:N threads to schedule tasks in user space
+4. Lock free implementation for critical task and memory management 
+5. Sync with `Apollo.auto` main line released-6.0 
 
 Instead of using CMake and internal distributed compiling system BCLOUD -- a distributed compiling system similar to 
 `distcc`, Cybertron is built with a new compiling system `Bazel`. Bazel is optimized to 
@@ -26,12 +28,7 @@ well with existing CMake projects in Linux system.
 This repo is a non-official distribution of building blocks of the `Cybertron`. By offering 
 three major features, `Cybertron` boosts up real-time computing task performance inside 
 RTOS such as QNX and ROS with shumbus. Besides real-time computing system, the `cybertron` 
-is also possible to be utilized in offline pipelines:
-
-1. Intra-Process Communiation (IPC) with linux native Xmi shared memory
-2. Dynamic loading with Directed Acyclic Graph (DAG) description for multi input and multi output (MIMO) application
-3. M:N threads to schedule tasks in user space
-4. Sync with `Apollo.auto` main line released-6.0 
+is also possible to be utilized in offline pipelines
 
 ### Software dependencies
 
