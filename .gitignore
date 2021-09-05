@@ -83,3 +83,6 @@ tools/FlameGraph
 # ignore downloaded compress files
 *.bin
 *.tar.gz
+
+# build log
+see.log

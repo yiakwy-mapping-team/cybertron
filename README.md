@@ -8,7 +8,17 @@ It was originally maintained by Baidu CarOS team from legacy Advanced Driving Un
 Since version 3.5, it has been continuously integrated to [`Apollo.auto`](https://github.com/ApolloAuto/apollo) project by community 
 maintainers with a new name `cyber_rt` meaning `Cybertron` for runtime MIMO computing platform.
 
-Instead of using CMake, internal BCLOUD -- a distributed compiling system, or external 
+The application is evolving from original CMake based prototype to tackle some real hard problems for application running in RTOS:
+
+> github.com/ApolloAuto/apollo/issues/3707
+
+To summarize:
+
+- Static allocation of memory
+- Intra - Process Communication to replace UDP based communication
+- 
+
+Instead of using CMake and internal distributed compiling system BCLOUD -- a distributed compiling system similar to 
 `distcc`, Cybertron is built with a new compiling system `Bazel`. Bazel is optimized to 
 compile medium and large size of projects. I am also pretty much sure that it works very 
 well with existing CMake projects in Linux system.
@@ -18,10 +28,10 @@ three major features, `Cybertron` boosts up real-time computing task performance
 RTOS such as QNX and ROS with shumbus. Besides real-time computing system, the `cybertron` 
 is also possible to be utilized in offline pipelines:
 
-1. 
-2. 
-3. 
-4. Sync with Apollo.auto Released 6.0 
+1. Intra-Process Communiation (IPC) with linux native Xmi shared memory
+2. Dynamic loading with Directed Acyclic Graph (DAG) description for multi input and multi output (MIMO) application
+3. M:N threads to schedule tasks in user space
+4. Sync with `Apollo.auto` main line released-6.0 
 
 ### Software dependencies
 
