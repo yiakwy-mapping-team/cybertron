@@ -1,7 +1,7 @@
 # Define all coms in DAG streaming.
     module_config {
     # module_library : "bazel-bin/modules/examples/common_component_example/libcommon_component_example.so"
-    module_library : "/home/yiakwy/WorkSpace/Github/cybertron/bazel-bin/modules/examples/common_component_example/libcommon_component_example.so" 
+    module_library : "/home/yiak/WorkSpace/Github/cybertron/bazel-bin/modules/examples/common_component_example/libcommon_component_example.so"
     components {
         class_name : "CommonComponentSample"
         config {

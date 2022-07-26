@@ -47,4 +47,6 @@ pathappend() {
     export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
 }
 
-export -f pathremove pathprepend pathappend
+export -f pathremove
+export -f pathprepend
+export -f pathappend

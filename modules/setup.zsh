@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /usr/bin/env zsh
 TOP_DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
 source ${TOP_DIR}/scripts/apollo.bashrc
 
@@ -24,10 +24,14 @@ for entry in "${mainboard_path}" \
     "${service_path}" \
     "${launch_path}" \
     "${visualizer_path}" ; do
-    pathprepend "${entry}"
+    echo "appending ${entry}..."
+    # pathprepend "${entry}"
+    export PATH=${entry}:$PATH
 done
 
-pathprepend ${bazel_bin_path}/modules/python/internal PYTHONPATH
+# pathprepend ${bazel_bin_path}/modules/python/internal PYTHONPATH
+echo "adding python path ${bazel_bin_path}/modules/python/internal"
+export PYTHONPATH=${bazel_bin_path}/modules/python/internal:$PYTHONPATH
 
 export CYBER_DOMAIN_ID=80
 export CYBER_IP=127.0.0.1
@@ -43,5 +47,5 @@ export sysmo_start=0
 
 # for DEBUG log
 #export GLOG_v=4
-
+echo "CYBER_PATH: ${CYBER_PATH}"
 source ${CYBER_PATH}/tools/cyber_tools_auto_complete.bash

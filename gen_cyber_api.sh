@@ -6,7 +6,7 @@ set -e
 
 cybertron_api="cybertron_api"
 
-mkdir -p $cybertron_api/{incr,libs}
+mkdir -p $cybertron_api/{incr,libs,python}
 
 pushd bazel-cybertron
   headeres=()
@@ -33,9 +33,24 @@ pushd bazel-bin
   echo "find ${#libs[*]} shared libraries"
 
   for f in ${libs[@]}; do
-    # echo "file : $f"
-    sudo cp --parents $f "$ROOT/$cybertron_api/libs/"
+    echo "file : $f"
+    # sudo cp --parents $f "$ROOT/$cybertron_api/libs/"
   done
 
 popd
 
+# or use protoc to generate python proto files directly
+pushd bazel-bin
+  py=()
+  find modules/proto -name "*.py" -print0 > cli_py_list
+  while IFS= read -r -d $'\0'; do
+    py+=("$REPLY")
+  done < cli_py_list
+  echo "find ${#py[*]} python files"
+
+  for f in ${py[@]}; do
+    echo "file : $f"
+    sudo cp --parents $f "$ROOT/$cybertron_api/python/"
+  done
+
+popd

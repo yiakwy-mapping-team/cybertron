@@ -2,7 +2,8 @@
 
 ## Introduction
 
-as an independent toolkit, [`Cybertron`](https://github.com/ApolloAuto/apollo/tree/master/cyber) is used to setup Multi-Input-Multi-Output (MIMO) pipelines. 
+as an independent toolkit, [`Cybertron`](https://github.com/ApolloAuto/apollo/tree/master/cyber) is used to setup 
+Multi-Input-Multi-Output (MIMO) pipelines. 
 It was originally maintained by Baidu CarOS team from legacy Advanced Driving Unit \(ADU\).  
  
 Since version 3.5, it has been continuously integrated to [`Apollo.auto`](https://github.com/ApolloAuto/apollo) project by community 
@@ -215,5 +216,29 @@ run:
 
 ## Start off
 
+#### Enable env
+
+![enable env](https://drive.google.com/uc?id=1IQOe1mnBiSMDDdDqzIQ4amseYIQ1TMBe)
+
 #### Start off with a CMake project
 
+Run `gen_cyber_api.sh`, this will generate all the headers and libraries you need to build your CMake/Make project / be added
+to existing project.
+
+![gen cyber api](https://drive.google.com/uc?id=1on5hOx8aWXfVK9g6lji4-Rh9jKYF0YNQ)
+
+#### Compile common node
+
+Compile and run through component:
+
+![common component](https://drive.google.com/uc?id=1on5hOx8aWXfVK9g6lji4-Rh9jKYF0YNQ)
+
+![common_component_read_write](https://drive.google.com/uc?id=1BFJZHHU216slSSeJs29hEZFSkTz0mYLy)
+
+#### Start off with a python wrapper 
+
+Simply run python command
+
+> python -m examples.python.talker
+
+![python](https://drive.google.com/file/d/1nL0CEGkMwiCyXs_zy5gtXrkmehc8dDzX/view?usp=sharing)
