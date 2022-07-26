@@ -241,4 +241,4 @@ Simply run python command
 
 > python -m examples.python.talker
 
-![python](https://drive.google.com/file/d/1nL0CEGkMwiCyXs_zy5gtXrkmehc8dDzX/view?usp=sharing)
+![python](https://drive.google.com/uc?id=1nL0CEGkMwiCyXs_zy5gtXrkmehc8dDzX)
