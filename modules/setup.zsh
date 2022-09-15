@@ -1,6 +1,7 @@
 #! /usr/bin/env zsh
-TOP_DIR="$(cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd)"
-source ${TOP_DIR}/scripts/apollo.bashrc
+TOP_DIR="$(cd "$( dirname "${0}" )/.." && pwd)"
+echo "TOP_DIR: ${TOP_DIR}"
+source ${TOP_DIR}/scripts/apollo.zsh
 
 export APOLLO_BAZEL_DIST_DIR="${APOLLO_CACHE_DIR}/distdir"
 export CYBER_PATH="${APOLLO_ROOT_DIR}/modules"

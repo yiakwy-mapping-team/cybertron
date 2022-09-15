@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package cyber.python.demo;
+
+message ImgShape {
+  int32 H = 1;
+  int32 W = 2;
+  int32 C = 3; // default to 1 U8C1
+}
+
+
+// simplified universal image representation
+message RawImage {
+  bytes data = 1; // compressed image buffer
+  ImgShape shape = 2;
+  string frame_id = 3;
+  uint64 timestamp = 4;
+}

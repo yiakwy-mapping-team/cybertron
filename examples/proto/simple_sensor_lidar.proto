@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package cyber.python.demo;
+
+message PointXYZI {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  uint32 intensity = 4;
+}
+
+message PointCloud {
+  repeated PointXYZI points = 1;
+  uint32 width = 2;
+  uint32 height = 3;
+  string frame_id = 4;
+  double timestamp = 5;
+}

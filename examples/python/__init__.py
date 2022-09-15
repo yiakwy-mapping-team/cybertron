@@ -40,6 +40,9 @@ sys.path.append(cyber_python_path_ext)
 # step 4
 # add protobuf path
 # import proto as Proto
+demo_proto_python_client_path="{}/examples/proto".format(CYBER_ROOT)
+sys.path.append(demo_proto_python_client_path)
+
 
 if __name__ == "__main__":
     import cyber

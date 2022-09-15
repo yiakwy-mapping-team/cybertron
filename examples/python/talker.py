@@ -1,24 +1,36 @@
 import time
 from datetime import datetime
+import os
+import sys
 
 import cyber
 import cyber_time
+
+# simply for test
 from proto.unit_test_pb2 import ChatterBenchmark
 
-def async_logging_info(msg):
-    # TODO (yiakwy) : add async logger
-    print("[PyTalker] {}".format(msg))
+sys.path.insert(0, os.path.dirname(__file__))
 
+# real py Multi data distribution control (MDDC) test
+from .mddc import MDDCDriver
+from .utils import async_logging_info
+
+DEBUG = False
+if 'DEBUG' in os.environ and OS.environ['DEBUG'] == 'True':
+    DEBUG = True
+
+# simply for test
 def startTalker():
     msg = ChatterBenchmark()
     seq = 0
 
     # a node wrapper of PyNode (wrapper of appllo::cyber::Node)
     node = cyber.Node("py_talker")
+    qos_depth = 10
 
     # std::unique_ptr<PyWriter> pw(
-    #     node.create_writer("channel/chatter", msgChat->GetTypeName(), 10));
-    writer = node.create_writer("channel/pychatter", ChatterBenchmark, 10)
+    #     node.create_writer("channel/chatter", msgChat->GetTypeName(), qos_depth));
+    writer = node.create_writer("channel/pychatter", ChatterBenchmark, qos_depth)
 
     # handle signal
     pollFreq = 10 # Hz
@@ -36,21 +48,7 @@ def startTalker():
         seq = seq + 1
         cyber_rate.sleep()
         time.sleep(3)
-
-# Note this class is python wrapper used for unit test/integration test to mock the behavior of a camera
-class MockedCamera:
-    pass
-
-class MockCameraEndPoint(cyber.Node):
-    pass
-
-def sendImages():
-    pass
-
-# Multiple data distribute control
-class MDDC:
-    pass
-
+    
 if __name__ == "__main__":
     print("start talker node ...")
 
@@ -58,7 +56,15 @@ if __name__ == "__main__":
     cyber.init()
 
     # create a talker node
-    startTalker()
+    if DEBUG:
+        startTalker()
+    else:
+        mddc_driver = MDDCDriver()
+
+        cyber_rate = cyber_time.Rate(mddc_driver.hz)
+        while not cyber.is_shutdown():
+            mddc_driver.DistributeData()
+            cyber_rate.sleep()
 
     print("clear down...")
     cyber.shutdown()
