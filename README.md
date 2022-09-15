@@ -237,6 +237,10 @@ Compile and run through component:
 
 #### Start off with a python wrapper 
 
+Generate demo message
+
+> /usr/bin/protoc -I/. --python_out=./ --proto_path=./ simple_sensor_image.proto
+
 Simply run python command
 
 > python -m examples.python.talker

@@ -11,7 +11,7 @@ message ImgShape {
 
 // simplified universal image representation
 message RawImage {
-  bytes data = 1; // compressed image buffer
+  bytes data = 1; // compressed image buffer, cv2
   ImgShape shape = 2;
   string frame_id = 3;
   uint64 timestamp = 4;

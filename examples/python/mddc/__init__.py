@@ -1,1 +1,2 @@
 from .driver import MDDCDriver
+from .detection_component import MultiInputDetectionComponent

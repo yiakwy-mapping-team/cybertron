@@ -16,7 +16,6 @@
 # limitations under the License.
 ###############################################################################
 
-# APOLLO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
 APOLLO_ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd )"
 APOLLO_IN_DOCKER=false
 

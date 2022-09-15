@@ -1,12 +1,21 @@
 import cyber
 import cyber_time
 
+import os
+import sys
+
 # simply for test
 from proto.unit_test_pb2 import ChatterBenchmark
 
-def async_logging_info(msg):
-    # TODO (yiakwy) : add async logger
-    print("[PyReader] {}".format(msg))
+sys.path.insert(0, os.path.dirname(__file__))
+
+# real mddc python demo
+from .mddc import MultiInputDetectionComponent
+from .utils import async_logging_info
+
+DEBUG = False
+if 'DEBUG' in os.envrion and OS.envrion['DEBUG'] == 'True':
+    DEBUG = True
 
 def onMessage(msg):
     async_logging_info("="*80)
@@ -24,6 +33,9 @@ if __name__ == "__main__":
     cyber.init()
 
     # start the client
-    startListener()
+    if DEBUG:
+        startListener()
+    else:
+        pass
     
     cyber.shutdown()
