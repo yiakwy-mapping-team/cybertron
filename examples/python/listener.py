@@ -14,7 +14,7 @@ from .mddc import MultiInputDetectionComponent
 from .utils import async_logging_info
 
 DEBUG = False
-if 'DEBUG' in os.envrion and OS.envrion['DEBUG'] == 'True':
+if 'DEBUG' in os.environ and os.environ['DEBUG'] == 'True':
     DEBUG = True
 
 def onMessage(msg):
@@ -36,6 +36,7 @@ if __name__ == "__main__":
     if DEBUG:
         startListener()
     else:
-        pass
+        multiInputDetection = MultiInputDetectionComponent()
+        multiInputDetection.spin()
     
     cyber.shutdown()

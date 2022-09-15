@@ -26,8 +26,8 @@ for entry in "${mainboard_path}" \
     "${launch_path}" \
     "${visualizer_path}" ; do
     echo "appending ${entry}..."
-    # pathprepend "${entry}"
-    export PATH=${entry}:$PATH
+    pathprepend "${entry}"
+    # export PATH=${entry}:$PATH
 done
 
 # pathprepend ${bazel_bin_path}/modules/python/internal PYTHONPATH

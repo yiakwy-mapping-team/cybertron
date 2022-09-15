@@ -4,6 +4,8 @@ from simple_sensor_lidar_pb2 import PointCloud as PointCloudMsg
 
 from utils import async_logging_info
 
+import time
+
 # used to synchronize data fetched from Python API.
 # the data will be fused and directed to **proc**
 class DataVisitor:
@@ -17,7 +19,7 @@ class Component:
 class MultiInputDetectionComponent(Component):
 
     def __init__(self):
-        self._implict_sub = cyber.Node("subscriber")
+        self._implicit_sub = cyber.Node("subscriber")
         self.data_visitor = DataVisitor()
         
         # subscribe
@@ -42,15 +44,15 @@ class MultiInputDetectionComponent(Component):
         time.sleep(3)
         pass
 
-    def onCameraCapture(self, camMsg):
+    def onCamCapture(self, camMsg):
         # TODO(yiakwy) write to data visitor
-        async_logging_info("fetch lidar message Msg#{}, decode it and feed it to dataVisitor...".format(lidarMsg.frame_id))
+        async_logging_info("fetch lidar message Msg#{}, decode it and feed it to dataVisitor...".format(camMsg.frame_id))
         
         # mock 
         time.sleep(3)
         pass
 
-    def spin():
+    def spin(self):
         self._implicit_sub.spin()
 
 
