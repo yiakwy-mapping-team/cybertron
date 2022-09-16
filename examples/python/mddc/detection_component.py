@@ -8,7 +8,7 @@ import time
 
 # used to synchronize data fetched from Python API.
 # the data will be fused and directed to **proc**
-class DataVisitor:
+class MockedDataVisitor:
     pass
 
 class Component:
@@ -19,12 +19,15 @@ class Component:
 class MultiInputDetectionComponent(Component):
 
     def __init__(self):
+        # Note usng a node to create more than 1 reader, will create forever loop when existing
         self._implicit_sub = cyber.Node("subscriber")
-        self.data_visitor = DataVisitor()
+        self.data_visitor = MockedDataVisitor()
         
         # subscribe
         self.lidar_reader = self._implicit_sub.create_reader("lidar:0", PointCloudMsg, self.onLidarScan)
         self.cam_reader = self._implicit_sub.create_reader("cam:0", RawImageMsg, self.onCamCapture)
+
+        self.Init()
 
     # TODO (yiakwy) : initialize event registration
     def Init(self):
@@ -41,7 +44,7 @@ class MultiInputDetectionComponent(Component):
         async_logging_info("fetch lidar message Msg#{}, decode it and feed it to dataVisitor...".format(lidarMsg.frame_id))
         
         # mock
-        time.sleep(3)
+        time.sleep(0.1)
         pass
 
     def onCamCapture(self, camMsg):
@@ -49,7 +52,7 @@ class MultiInputDetectionComponent(Component):
         async_logging_info("fetch lidar message Msg#{}, decode it and feed it to dataVisitor...".format(camMsg.frame_id))
         
         # mock 
-        time.sleep(3)
+        time.sleep(0.1)
         pass
 
     def spin(self):

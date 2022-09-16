@@ -214,35 +214,30 @@ run:
     /usr/bin/bazel build --compilation_mode=dbg //modules/...
     ```
 
-## Start off
+## Multi data distribution (python) demo
 
-#### Enable env
+#### Step 1 : Enable cyber env
+
+> source tools/setup.bashrc
+
+> source cyber_env.sh
 
 ![enable env](https://drive.google.com/uc?id=1IQOe1mnBiSMDDdDqzIQ4amseYIQ1TMBe)
 
-#### Start off with a CMake project
+#### Step 2 : Generate cyber API info
 
 Run `gen_cyber_api.sh`, this will generate all the headers and libraries you need to build your CMake/Make project / be added
 to existing project.
 
 ![gen cyber api](https://drive.google.com/uc?id=1on5hOx8aWXfVK9g6lji4-Rh9jKYF0YNQ)
 
-#### Compile common node
 
-Compile and run through component:
+#### Step 3 : Start with task written in python
 
-![common component](https://drive.google.com/uc?id=1on5hOx8aWXfVK9g6lji4-Rh9jKYF0YNQ)
-
-![common_component_read_write](https://drive.google.com/uc?id=1BFJZHHU216slSSeJs29hEZFSkTz0mYLy)
-
-#### Start off with a python wrapper 
-
-Generate demo message
+Generate demo message used:
 
 > /usr/bin/protoc -I/. --python_out=./ --proto_path=./ simple_sensor_image.proto
 
-Simply run python command
+Then simply run python command
 
-> python -m examples.python.talker
-
-![python](https://drive.google.com/uc?id=1nL0CEGkMwiCyXs_zy5gtXrkmehc8dDzX)
+> bash tasks/run_mddc_demo.sh
